@@ -29,7 +29,7 @@ st.set_page_config(
 # --- Title ---
 st.title("🌴 Hybrid Travel Assistant")
 st.markdown(
-    "Ask anything about Vietnam (or your travel dataset) — get intelligent, connected responses powered by **Pinecone + Neo4j + OpenAI.**"
+    "get intelligent, connected responses powered by **Pinecone + Neo4j + OpenAI.**"
 )
 
 # --- Initialize session state ---

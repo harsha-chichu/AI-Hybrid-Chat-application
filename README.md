@@ -1,6 +1,20 @@
-# Hybrid AI Travel Assistant — Blue Enigma Challenge 🚀
+# 🌴 Hybrid Travel Assistant
 
-This project implements a sophisticated **hybrid retrieval and reasoning** travel assistant. It combines the strengths of a graph database for structured data and a vector database for semantic understanding, orchestrated by a large language model to provide intelligent, context-aware travel recommendations.
+An **AI-powered travel planning system** that combines **semantic search (Pinecone)**, **graph-based reasoning (Neo4j)**, and **LLM reasoning (OpenAI GPT)** to deliver context-aware, connected, and personalized travel recommendations.
+
+It also includes a **Streamlit interface** for interactive exploration and visualization of travel insights.
+
+---
+
+## 🚀 Features
+
+✅ Semantic retrieval using **Pinecone**  
+✅ Graph reasoning via **Neo4j** relationships  
+✅ Contextual prompt building for **OpenAI ChatGPT**  
+✅ In-memory caching for faster responses  
+✅ Async pipeline for performance and concurrency  
+✅ Rich **Streamlit UI** with live **knowledge graph visualization**  
+✅ CLI support for debugging and testing  
 
 ---
 
@@ -47,6 +61,36 @@ The application is built with a modular and decoupled architecture to ensure mai
 * **app/llm/:** A centralized client for interacting with the OpenAI API, complete with a `PromptBuilder` to structure context for the model.
 * **app/hybrid/:** The core orchestration layer that combines the outputs from the retrievers, manages caching, and passes the final context to the LLM for reasoning and response generation.
 
+```
+                ┌────────────────────────────┐
+                │        Streamlit UI        │
+                (User Query + Visualization)│
+      └──────────────┬─────────────┘
+                     │
+            [User enters query]
+                     │
+      ┌──────────────▼─────────────┐
+      │       HybridChat           │
+      │  (Async Orchestrator)      │
+      └──────────────┬─────────────┘
+                     │
+ ┌───────────────────┼────────────────────┐
+ │                   │                    │
+┌────▼───────┐     ┌─────▼─────┐        ┌─────▼─────────┐
+│ Pinecone    │     │  Neo4j     │        │  PromptBuilder │
+│ Retriever   │     │ Retriever  │        │  + LLM Client   │
+│ (Embeddings │     │ (Graph     │        │  (OpenAI ChatGPT)│
+│ + Similarity)│     │ Context)  │        └─────────────────┘
+└──────────────┘     └───────────┘
+                     │
+            ┌───────▼────────┐
+            │ Structured Reply│
+            │ (Reasoned Output│
+            │  + Graph Facts) │
+            └────────────────┘
+                     │
+             [Returned to UI]
+```
 This design separates data retrieval, LLM interaction, and business logic, making the system easier to test, debug, and extend.
 
 ---
@@ -76,18 +120,46 @@ hybrid_ai_travel_assistant/
 │
 ├── tests/                # Unit & integration tests
 ├── logs/                 # Runtime logs
-├── docs/                 # Detailed documentation
-│   ├── architecture.md
-│   ├── reasoning.md
-│   └── scaling_strategy.md
 │
-├── notebooks/            # Experimental or debugging notebooks
 ├── main.py               # Unified application launcher
 ├── requirements.txt      # Project dependencies
 ├── README.md             # This file
 └── .env                  # Environment variables (API keys, etc.)
 ```
+---
 
+## ⚙️ Workflow
+
+1. **User Query:** The traveler enters a request (e.g., “Romantic 4-day itinerary in Vietnam”).  
+2. **Semantic Retrieval:** Pinecone retrieves top related nodes based on embeddings.  
+3. **Graph Retrieval:** Neo4j fetches connected destinations, attractions, and relationships.  
+4. **Prompt Assembly:** `PromptBuilder` combines semantic + graph context into a structured LLM prompt.  
+5. **Reasoning:** OpenAI GPT model generates a rich, personalized plan.  
+6. **Response Display:** The Streamlit UI shows the itinerary, summary, and live interactive graph.
+
+---
+
+## 🖥️ Streamlit Interface
+
+### ✨ Chat UI Screenshot
+
+![Streamlit Travel Assistant UI](docs/chat_ui_output.png)
+
+*(Example: Romantic 4-day itinerary in Vietnam — full reasoning and graph visualization.)*
+
+---
+
+## 🧩 Example CLI Usage
+
+```bash
+python -m scripts.chat_cli --query "Create a 4-day romantic trip to Vietnam"
+```
+
+## 🧩 Example UI Usage
+
+```bash
+python -m scripts.chat_cli --query "Create a 4-day romantic trip to Vietnam"
+```
 ---
 
 ## 🚀 Quickstart Guide
@@ -131,7 +203,7 @@ python -m scripts.chat_cli
 ```
 *(Optional)* To view the graph visualization dashboard:
 ```bash
-streamlit run scripts/dashboard.py
+python -m streamlit run scripts/dashboard.py # (if error) run streamlit run scripts/dashboard.py
 ```
 
 ---
@@ -170,3 +242,5 @@ The architecture is designed to adapt to future changes in external APIs and to 
 * **API Encapsulation:** All interactions with Pinecone and OpenAI are isolated within dedicated adapter modules (`pinecone_retriever.py`, `llm_client.py`). If an API changes, updates only need to be made in one place.
 * **Compatibility Layers:** A thin compatibility layer can be introduced to manage multiple API versions simultaneously, controlled via environment variables.
 * **Abstracted Interfaces:** By defining a generic `VectorStore` interface, the system can easily support other vector backends like Milvus, FAISS, or Weaviate with minimal code changes to the core orchestration logic.
+
+
