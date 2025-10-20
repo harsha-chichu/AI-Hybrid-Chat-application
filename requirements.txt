@@ -7,3 +7,5 @@ tqdm==4.67.1
 python-dotenv==1.1.1
 streamlit==1.24.1
 rich==13.3.4
+pyreadline3
+nest_asyncio 
