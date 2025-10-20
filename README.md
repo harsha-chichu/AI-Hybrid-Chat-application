@@ -143,7 +143,11 @@ hybrid_ai_travel_assistant/
 
 ### ✨ Chat UI Screenshot
 
-![Streamlit Travel Assistant UI](docs/chat_ui_output.png)
+![Streamlit Travel Assistant UI](outputs/image.png)
+
+![Streamlit Travel Assistant UI](outputs/image2.png)
+
+![Streamlit Travel Assistant UI](outputs/image3.png)
 
 *(Example: Romantic 4-day itinerary in Vietnam — full reasoning and graph visualization.)*
 
