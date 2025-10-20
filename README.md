@@ -384,24 +384,3 @@ Contributions are welcome! Please follow these steps:
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-## 🙏 Acknowledgments
-
-- OpenAI for GPT models and embeddings
-- Pinecone for vector database infrastructure
-- Neo4j for graph database technology
-- The Python community for excellent libraries
-
----
-
-## 📧 Contact
-
-For questions or feedback, please open an issue or contact:
-- **Email**: your.email@example.com
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-
----
-
-<div align="center">
-  <strong>Built with ❤️ for intelligent travel planning</strong>
-</div>
