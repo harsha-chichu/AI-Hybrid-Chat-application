@@ -43,3 +43,37 @@ class HybridRetriever:
         except Exception as e:
             logger.exception("Hybrid retrieval failed.")
             raise RetrievalError(f"Hybrid retrieval failed: {e}")
+        
+    def search_summary(self, result: Dict, max_items: int = 5) -> str:
+        """
+        Generate a simple textual summary of top retrieved nodes and relationships.
+        Useful for quick inspection or debugging.
+        """
+        if not result:
+            return "No results to summarize."
+
+        matches = result.get("matches", [])
+        graph_facts = result.get("graph_facts", [])
+
+        summary_lines = []
+        summary_lines.append("**Search Summary:**")
+
+        # Summarize top semantic matches
+        summary_lines.append("\n**Top Semantic Matches:**")
+        for m in matches[:max_items]:
+            meta = m.get("metadata", {})
+            name = meta.get("name", "Unknown")
+            etype = meta.get("type", "Entity")
+            desc = meta.get("description", "")[:100].strip()
+            summary_lines.append(f"- {name} ({etype}): {desc}...")
+
+        # Summarize graph relationships
+        if graph_facts:
+            summary_lines.append("\n**Graph Relationships (sample):**")
+            for f in graph_facts[:max_items]:
+                src = f.get("source", "Unknown")
+                rel = f.get("rel", "related_to")
+                tgt = f.get("target_name", "Unknown")
+                summary_lines.append(f"- {src} —[{rel}]→ {tgt}")
+
+        return "\n".join(summary_lines)
